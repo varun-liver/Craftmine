@@ -20,11 +20,11 @@ function createPlayer(scene) {
   const armMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 
   const leftArm = new THREE.Mesh(armGeo, armMat);
-  leftArm.position.set(-0.8, 1.2, 0);
+  leftArm.position.set(-0.6, 1.2, 0);
   group.add(leftArm);
 
   const rightArm = new THREE.Mesh(armGeo, armMat);
-  rightArm.position.set(0.8, 1.2, 0);
+  rightArm.position.set(0.6, 1.2, 0);
   group.add(rightArm);
 
   // Legs
@@ -32,11 +32,11 @@ function createPlayer(scene) {
   const legMat = new THREE.MeshStandardMaterial({ color: 0x0000ff });
 
   const leftLeg = new THREE.Mesh(legGeo, legMat);
-  leftLeg.position.set(-0.3, 0.0, 0);
+  leftLeg.position.set(-0.3, -0.2, 0);
   group.add(leftLeg);
 
   const rightLeg = new THREE.Mesh(legGeo, legMat);
-  rightLeg.position.set(0.3, 0.0, 0);
+  rightLeg.position.set(0.3, -0.2, 0);
   group.add(rightLeg);
 
   // Lift player so feet touch ground
