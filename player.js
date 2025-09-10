@@ -51,17 +51,55 @@ class Player {
     this.mesh = model.group;
     this.head = model.head;
 
-    // Attach camera to head for first-person view
-    this.head.add(camera);
-    camera.position.set(0, 0.2, 0.5); // inside head (adjust to taste)
+    // References to limbs
+    this.leftArm = model.leftArm;
+    this.rightArm = model.rightArm;
+    this.leftLeg = model.leftLeg;
+    this.rightLeg = model.rightLeg;
 
     this.speed = 0.1;
+    this.walkCycle = 0; // counter for animation
   }
 
   move(keys) {
-    if (keys["ArrowUp"]) this.mesh.position.z -= this.speed;
-    if (keys["ArrowDown"]) this.mesh.position.z += this.speed;
-    if (keys["ArrowLeft"]) this.mesh.position.x -= this.speed;
-    if (keys["ArrowRight"]) this.mesh.position.x += this.speed;
+    // --- Movement logic ---
+    const forward = new THREE.Vector3(-Math.sin(this.mesh.rotation.y), 0, -Math.cos(this.mesh.rotation.y));
+    const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), forward);
+
+    let moving = false;
+
+    if (keys["ArrowUp"] || keys["w"]) {
+      this.mesh.position.addScaledVector(forward, this.speed);
+      moving = true;
+    }
+    if (keys["ArrowDown"] || keys["s"]) {
+      this.mesh.position.addScaledVector(forward, -this.speed);
+      moving = true;
+    }
+    if (keys["ArrowLeft"] || keys["a"]) {
+      this.mesh.position.addScaledVector(right, -this.speed);
+      moving = true;
+    }
+    if (keys["ArrowRight"] || keys["d"]) {
+      this.mesh.position.addScaledVector(right, this.speed);
+      moving = true;
+    }
+
+    // --- Swing limbs if moving ---
+    if (moving) {
+      this.walkCycle += 0.1;
+      const swing = Math.sin(this.walkCycle) * 0.5;
+
+      this.leftArm.rotation.x = swing;
+      this.rightArm.rotation.x = -swing;
+      this.leftLeg.rotation.x = -swing;
+      this.rightLeg.rotation.x = swing;
+    } else {
+      // reset pose if not moving
+      this.leftArm.rotation.x = 0;
+      this.rightArm.rotation.x = 0;
+      this.leftLeg.rotation.x = 0;
+      this.rightLeg.rotation.x = 0;
+    }
   }
 }
