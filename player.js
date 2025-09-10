@@ -1,18 +1,18 @@
 function createPlayer(scene) {
-  const group = new THREE.Group(); // parent object
+  const group = new THREE.Group();
 
   // Body
   const bodyGeo = new THREE.BoxGeometry(1, 1.5, 0.5);
   const bodyMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
   const body = new THREE.Mesh(bodyGeo, bodyMat);
-  body.position.y = 1.0; // lift body
+  body.position.y = 1.0;
   group.add(body);
 
   // Head
   const headGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
   const headMat = new THREE.MeshStandardMaterial({ color: 0xffcc99 });
   const head = new THREE.Mesh(headGeo, headMat);
-  head.position.y = 2.1; // above body
+  head.position.y = 2.1;
   group.add(head);
 
   // Arms
@@ -20,11 +20,11 @@ function createPlayer(scene) {
   const armMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 
   const leftArm = new THREE.Mesh(armGeo, armMat);
-  leftArm.position.set(-0.6, 1.2, 0);
+  leftArm.position.set(-0.8, 1.2, 0);
   group.add(leftArm);
 
   const rightArm = new THREE.Mesh(armGeo, armMat);
-  rightArm.position.set(0.6, 1.2, 0);
+  rightArm.position.set(0.8, 1.2, 0);
   group.add(rightArm);
 
   // Legs
@@ -32,25 +32,29 @@ function createPlayer(scene) {
   const legMat = new THREE.MeshStandardMaterial({ color: 0x0000ff });
 
   const leftLeg = new THREE.Mesh(legGeo, legMat);
-  leftLeg.position.set(-0.3, -0.2, 0);
+  leftLeg.position.set(-0.3, 0.0, 0);
   group.add(leftLeg);
 
   const rightLeg = new THREE.Mesh(legGeo, legMat);
-  rightLeg.position.set(0.3, -0.2, 0);
+  rightLeg.position.set(0.3, 0.0, 0);
   group.add(rightLeg);
 
-  // Lift player so feet touch ground
   group.position.y = 0.5;
-
-  // Add to scene
   scene.add(group);
 
-  return group; // return the full player model
+  return { group, head };
 }
 
 class Player {
-  constructor(scene) {
-    this.mesh = createPlayer(scene); // use the grouped model
+  constructor(scene, camera) {
+    const model = createPlayer(scene);
+    this.mesh = model.group;
+    this.head = model.head;
+
+    // Attach camera to head for first-person view
+    this.head.add(camera);
+    camera.position.set(0, 0.2, 0.5); // inside head (adjust to taste)
+
     this.speed = 0.1;
   }
 

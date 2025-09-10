@@ -13,8 +13,6 @@ function init() {
     0.1,
     1000
   );
-  camera.position.set(0, 5, 10);
-  camera.lookAt(0, 0, 0);
 
   // Renderer
   renderer = new THREE.WebGLRenderer();
@@ -36,8 +34,8 @@ function init() {
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
 
-  // Player
-  player = new Player(scene);
+  // 🚀 Player goes here
+  player = new Player(scene, camera);
 
   // Input handling
   window.addEventListener("keydown", (e) => (keys[e.key] = true));
