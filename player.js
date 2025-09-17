@@ -36,11 +36,11 @@ class Player {
     const armMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 
     const leftArm = new THREE.Mesh(armGeo, armMat);
-    leftArm.position.set(-0.8, 1.2, 0);
+    leftArm.position.set(-0.6, 1.2, 0);
     group.add(leftArm);
 
     const rightArm = new THREE.Mesh(armGeo, armMat);
-    rightArm.position.set(0.8, 1.2, 0);
+    rightArm.position.set(0.6, 1.2, 0);
     group.add(rightArm);
 
     // Legs
